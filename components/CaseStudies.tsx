@@ -33,16 +33,15 @@ const Card: React.FC<{ item: Item }> = ({ item }) => {
       ref={cardRef}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className="relative bg-[#0e0e0e] border border-white/[0.07] rounded-2xl p-6 mb-4 overflow-hidden group transition-all duration-200 hover:-translate-y-1 hover:border-white/[0.13] hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+      className="relative bg-[#0e0e0e] border border-white/[0.07] rounded-2xl p-5 mb-3 overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:border-white/[0.13] hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
     >
-      {/* cursor glow — updated via ref, no re-renders */}
+      {/* cursor glow */}
       <div
         ref={glowRef}
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{ opacity: 0, transition: 'opacity 0.3s' }}
       />
-      {/* top highlight line */}
-      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
+      <div className="absolute top-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       {/* industry + stars */}
       <div className="flex items-center justify-between mb-3">
@@ -57,10 +56,10 @@ const Card: React.FC<{ item: Item }> = ({ item }) => {
       </div>
 
       {/* quote */}
-      <p className="text-white/68 text-sm leading-relaxed mb-5 font-light">"{item.quote}"</p>
+      <p className="text-white/68 text-sm leading-relaxed mb-4 font-light">"{item.quote}"</p>
 
       {/* 2 metrics */}
-      <div className="flex gap-2 mb-5">
+      <div className="flex gap-2 mb-4">
         {item.results.slice(0, 2).map((r, i) => (
           <div key={i} className="flex-1 bg-white/[0.03] border border-white/[0.05] rounded-xl px-3 py-2 text-center">
             <div className="text-white font-black text-sm tracking-tight">{r.value}</div>
@@ -70,7 +69,7 @@ const Card: React.FC<{ item: Item }> = ({ item }) => {
       </div>
 
       {/* profile */}
-      <div className="flex items-center gap-3 pt-4 border-t border-white/[0.05]">
+      <div className="flex items-center gap-3 pt-3 border-t border-white/[0.05]">
         <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10 ring-1 ring-primary/10 flex-shrink-0">
           <img
             src={item.image || `https://api.dicebear.com/7.x/initials/svg?seed=${item.name}&backgroundColor=111111&textColor=ffffff`}
@@ -102,10 +101,9 @@ const ScrollColumn = ({
 }: {
   items: Item[];
   direction: 'up' | 'down';
-  speed: number; // px/s
+  speed: number;
   isPaused: boolean;
 }) => {
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const innerRef  = useRef<HTMLDivElement>(null);
   const posRef    = useRef(0);
   const rafRef    = useRef<number | null>(null);
@@ -139,11 +137,10 @@ const ScrollColumn = ({
 
   return (
     <div
-      ref={wrapperRef}
       className="relative overflow-hidden flex-1"
       style={{
-        maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
       }}
     >
       <div ref={innerRef} style={{ willChange: 'transform' }}>
@@ -176,28 +173,32 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({ testimonials }) => {
   const col2 = [...items.slice(2), ...items.slice(0, 2)];
   const col3 = [...items.slice(4), ...items.slice(0, 4)];
 
-  return (
-    <section id="results" className="py-24 md:py-32 bg-black relative overflow-hidden" ref={sectionRef}>
+  const wallVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+  };
 
-      {/* Static background — no scroll listeners */}
+  return (
+    <section id="results" className="py-20 md:py-32 bg-black relative overflow-hidden" ref={sectionRef}>
+
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-[-8%] w-[700px] h-[700px] rounded-full bg-primary/5 blur-[180px]" />
-        <div className="absolute bottom-[-20%] right-[-8%] w-[600px] h-[600px] rounded-full bg-primary/4 blur-[160px]" />
+        <div className="absolute top-[-20%] left-[-8%] w-[400px] md:w-[700px] h-[400px] md:h-[700px] rounded-full bg-primary/5 blur-[120px] md:blur-[180px]" />
+        <div className="absolute bottom-[-20%] right-[-8%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] rounded-full bg-primary/4 blur-[100px] md:blur-[160px]" />
       </div>
 
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
 
-        {/* ── Header ── */}
+        {/* Header */}
         <motion.div
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-12 md:mb-16"
           initial={{ opacity: 0, y: 28, filter: 'blur(10px)' }}
           animate={isVisible ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
           transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 mb-5"
             initial={{ opacity: 0, scale: 0.85 }}
             animate={isVisible ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.2, ease: [0.34, 1.4, 0.64, 1] }}
@@ -211,7 +212,7 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({ testimonials }) => {
           </motion.div>
 
           <motion.h2
-            className="text-4xl md:text-6xl font-black text-white tracking-tight mb-4"
+            className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tight mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
@@ -220,7 +221,7 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({ testimonials }) => {
           </motion.h2>
 
           <motion.p
-            className="text-white/40 text-base md:text-lg max-w-md mx-auto font-light"
+            className="text-white/40 text-sm md:text-lg max-w-sm md:max-w-md mx-auto font-light px-4"
             initial={{ opacity: 0 }}
             animate={isVisible ? { opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.25 }}
@@ -229,12 +230,25 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({ testimonials }) => {
           </motion.p>
         </motion.div>
 
-        {/* ── Scrolling wall ── */}
+        {/* ── Mobile: single centered column ── */}
         <motion.div
-          className="flex gap-4 md:gap-5 h-[620px] md:h-[700px]"
-          initial={{ opacity: 0, y: 50 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="md:hidden h-[500px]"
+          variants={wallVariants}
+          initial="hidden"
+          animate={isVisible ? 'visible' : 'hidden'}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+          onTouchCancel={() => setIsPaused(false)}
+        >
+          <ScrollColumn items={col1} direction="up" speed={32} isPaused={isPaused} />
+        </motion.div>
+
+        {/* ── Desktop: 3 columns ── */}
+        <motion.div
+          className="hidden md:flex gap-4 md:gap-5 h-[700px]"
+          variants={wallVariants}
+          initial="hidden"
+          animate={isVisible ? 'visible' : 'hidden'}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >

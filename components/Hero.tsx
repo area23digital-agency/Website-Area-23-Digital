@@ -9,7 +9,6 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ t }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLElement>(null);
-  const [scrolled, setScrolled] = useState(0);
 
   // Professional avatars for the "Trusted By" section
   const avatars = [
@@ -29,15 +28,9 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
       }
     };
 
-    const handleScroll = () => {
-      setScrolled(window.scrollY);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -104,9 +97,9 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
         {/* Main Headline */}
         <h1 className="text-center max-w-5xl mx-auto mb-6 md:mb-10 relative">
           <div className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.1] md:leading-[1.1] flex flex-col items-center">
-            <span 
+            <span
               className="block text-white animate-reveal"
-              style={{ transform: `translateY(${scrolled * -0.1}px)`, animationDelay: '0.1s' }}
+              style={{ animationDelay: '0.1s' }}
             >
               {t.headlineParts[0]}
             </span>

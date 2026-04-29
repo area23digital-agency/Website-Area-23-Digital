@@ -22,7 +22,7 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
   return (
     <section id="pricing" className="py-20 md:py-32 bg-black" ref={sectionRef}>
       <div className="container mx-auto px-6">
-        <div className="text-center mb-24 relative">
+        <div className="text-center mb-12 md:mb-24 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-[80%] h-[150%] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
           
           <div className={`inline-flex items-center gap-3 mb-8 px-4 py-1.5 rounded-full bg-white/[0.02] border border-white/5 backdrop-blur-sm transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -41,10 +41,10 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
 
         <div className={`transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           {t.sections.map((section, sIdx) => (
-            <div key={sIdx} className="mb-32 last:mb-0 border-b border-white/5 pb-24 last:border-0 last:pb-0">
+            <div key={sIdx} className="mb-16 md:mb-32 last:mb-0 border-b border-white/5 pb-14 md:pb-24 last:border-0 last:pb-0">
               {/* Section Header */}
               {(section.title || section.subtitle || section.description) && (
-                <div className="text-center mb-16 relative">
+                <div className="text-center mb-8 md:mb-16 relative">
                   {section.title && (
                     <div className="inline-block relative">
                       <h3 className="relative text-2xl md:text-3xl font-black text-white mb-6 uppercase tracking-widest pl-2">
@@ -68,7 +68,7 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
 
               {/* Common Features */}
               {section.commonFeatures && (
-                <div className="mb-16 bg-[#040404] border border-white/5 rounded-3xl p-8 md:p-10 max-w-5xl mx-auto flex flex-col items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+                <div className="mb-8 md:mb-16 bg-[#040404] border border-white/5 rounded-3xl p-6 md:p-10 max-w-5xl mx-auto flex flex-col items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
                    <div className="text-center mb-8 flex items-center gap-4">
                      <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(255,0,69,0.6)]"></div>
                      <span className="text-primary text-sm font-bold uppercase tracking-[0.2em]">
@@ -184,8 +184,8 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
                   {section.plans.map((plan, pIdx) => (
                     <div 
                       key={pIdx} 
-                      className={`group relative p-8 md:p-10 rounded-[2rem] border transition-all duration-500 flex flex-col ${plan.highlighted 
-                        ? 'bg-[#0f0f0f] border-primary shadow-[0_0_40px_rgba(255,0,69,0.15)] md:scale-105 z-10' 
+                      className={`group relative p-6 md:p-10 rounded-[2rem] border transition-all duration-500 flex flex-col ${plan.highlighted
+                        ? 'bg-[#0f0f0f] border-primary shadow-[0_0_40px_rgba(255,0,69,0.15)] md:scale-105 z-10'
                         : 'bg-[#050505] border-white/10 hover:border-white/20'}
                       `}
                     >

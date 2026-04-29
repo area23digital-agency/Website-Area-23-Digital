@@ -427,6 +427,23 @@
       }
 
       ::selection { background-color: #ff0045; color: white; }
+
+      /* ── Mobile performance: disable GPU-heavy animations ── */
+      @media (max-width: 767px) {
+        /* Kill the 300%×300% noise texture animated every 1s */
+        .bg-grain::after { display: none; }
+        /* Kill the moving background grid */
+        .bg-grid { display: none; }
+        /* Stop the giant mesh blobs from animating — static at low opacity is fine */
+        .mesh-blob { animation: none !important; }
+        /* Reduce blur radius on heavy gradient blobs */
+        .mesh-blob { filter: blur(60px) !important; }
+        /* Disable hover translate on list items (no hover on mobile) */
+        .hover\:translate-x-4:hover { transform: none !important; }
+      }
+
+      /* Smooth momentum scrolling on iOS */
+      html { -webkit-overflow-scrolling: touch; }
     </style>
   <script type="importmap">
 {
