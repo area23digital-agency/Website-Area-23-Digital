@@ -282,7 +282,7 @@ export const translations: Record<'en' | 'es', Translation> = {
       cta: "Do you identify? Let’s talk.",
       ctaButton: "Let's Talk"
     },
-            pricing: {
+    pricing: {
       headline: "Investment",
       subheadline: "Choose Your Growth Plan",
       sections: [
@@ -465,8 +465,6 @@ export const translations: Record<'en' | 'es', Translation> = {
       ],
       footer: "Minimum commitment: 3 months\nAd budget NOT included in monthly fees\n\nNot sure which to choose? [Schedule Strategy Call →]"
     },
-
-
     faq: {
       headline: "Frequently Asked Questions",
       subheadline: "Everything you need to know about our systems and process.",
@@ -477,7 +475,7 @@ export const translations: Record<'en' | 'es', Translation> = {
         { q: "What’s included in the monthly fee?", a: "Ongoing campaign management, daily optimization, CRM maintenance and adjustments, automation flow refinements, weekly performance reports, monthly strategic planning calls, and direct communication with our team. Ad spend budget is separate and managed according to your plan." },
         { q: "How long does implementation take?", a: "Foundation System: 14-21 days | Growth System: 21-30 days | Scale System: 30-45 days. First leads typically appear within 2-3 weeks of launch. Full system optimization occurs over the first 60-90 days as we gather data and refine targeting, messaging, and automation flows." },
         { q: "What makes you different from other agencies?", a: "We design integrated systems, not isolated campaigns. We start with strategy before execution. We focus on sales and ROI, not vanity metrics. We're strategic partners who build infrastructure, not vendors who execute tasks. Everything we build is designed to scale profitably and compound over time." },
-        { q: "What’s the minimum investment required?", a: "Combined monthly investment (our fees + ad spend) should be at least $3,000-$3,500 for Foundation, $5,500-$7,500 for Growth, and $10,000+ for Scale. Lower budgets don't generate enough data volume to optimize effectively or scale sustainably." }
+        { q: "What’s the minimum investment required?", a: "Combined monthly investment (our fees + ad spend) should be at least $3,000-$3,500 for Foundation, $5,500-$7,500 for Growth, and $10,000+ for Scale. Lower budgets don’t generate enough data volume to optimize effectively or scale sustainably." }
       ]
     },
     finalCta: {
@@ -738,7 +736,7 @@ export const translations: Record<'en' | 'es', Translation> = {
         { value: "$2M+", label: "INVERSIÓN GESTIONADA" },
         { value: "50+", label: "NEGOCIOS ESCALADOS" },
         { value: "5+", label: "AÑOS CONSTRUYENDO SISTEMAS" },
-        { value: "15+", label: "INDUSTRIES ATENDIDAS" },
+        { value: "15+", label: "INDUSTRIAS ATENDIDAS" },
         { value: "10K+", label: "LEADS CUALIFICADOS" },
         { value: "3x", label: "EFICIENCIA DE COSTO PROMEDIO" }
       ]
@@ -818,7 +816,7 @@ export const translations: Record<'en' | 'es', Translation> = {
       cta: "¿Te identificas? Hablemos.",
       ctaButton: "Hablemos"
     },
-            pricing: {
+    pricing: {
       headline: "Inversión",
       subheadline: "Elige Tu Plan de Crecimiento",
       sections: [
@@ -1001,8 +999,6 @@ export const translations: Record<'en' | 'es', Translation> = {
       ],
       footer: "Compromiso mínimo: 3 meses\nPresupuesto publicitario NO incluido en las tarifas mensuales\n\n¿No estás seguro cuál elegir? [Agendar Llamada Estratégica →]"
     },
-
-
     faq: {
       headline: "Preguntas Frecuentes",
       subheadline: "Todo lo que necesitas saber sobre nuestros sistemas y proceso.",

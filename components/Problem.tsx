@@ -90,9 +90,11 @@ const Problem: React.FC<ProblemProps> = ({ t }) => {
           {/* Text */}
           <p className="text-center text-white/60 font-medium text-lg md:text-xl max-w-2xl leading-relaxed">
             {t.transition.split('. ')[0]}.
-            <span className="block mt-2 text-white font-serif italic text-2xl md:text-3xl">
-              {t.transition.split('. ')[1]}
-            </span>
+            {t.transition.split('. ')[1] && (
+              <span className="block mt-2 text-white font-serif italic text-2xl md:text-3xl">
+                {t.transition.split('. ')[1]}
+              </span>
+            )}
           </p>
         </div>
 

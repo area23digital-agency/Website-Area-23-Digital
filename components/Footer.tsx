@@ -17,7 +17,7 @@ const Footer: React.FC<FooterProps> = ({ t }) => {
   const quickLinks = [
     { label: 'Home', href: '#home' },
     { label: 'Services', href: '#services' },
-    { label: 'How We Work', href: '#how-we-work' },
+    { label: 'How We Work', href: '#approach' },
     { label: 'Results', href: '#results' },
     { label: 'Contact', href: '#contact' }
   ];
@@ -92,15 +92,15 @@ const Footer: React.FC<FooterProps> = ({ t }) => {
             <ul className="space-y-4 md:space-y-6 text-secondary text-sm font-bold">
               <li className="flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_#ff0045]"></span>
-                <a href="mailto:area23digital@gmail.com" className="hover:text-primary transition-colors break-all">
-                  area23digital@gmail.com
+                <a href={`mailto:${t.contactInfo.email}`} className="hover:text-primary transition-colors break-all">
+                  {t.contactInfo.email}
                 </a>
               </li>
-              <li>+1 (786) 989-2694</li>
-              <li>Mon-Fri 9:00 AM - 6:00 PM EST</li>
+              <li>{t.contactInfo.phone}</li>
+              <li>{t.contactInfo.hours}</li>
               <li className="pt-6 border-t border-white/5 text-white font-black tracking-tight flex flex-col gap-2">
-                <span className="text-[0.65rem] uppercase tracking-widest text-secondary/60">Global Coverage</span>
-                United States | Latin America
+                <span className="text-[0.65rem] uppercase tracking-widest text-secondary/60">{t.links.titles.global}</span>
+                {t.contactInfo.locations}
               </li>
             </ul>
           </div>
@@ -109,8 +109,8 @@ const Footer: React.FC<FooterProps> = ({ t }) => {
         <div className="pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8">
           <div className="text-secondary/60 text-[0.65rem] font-black uppercase tracking-widest text-center md:text-left">{t.copyright}</div>
           <div className="flex space-x-10 text-secondary/60 text-[0.65rem] font-black uppercase tracking-widest">
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-primary transition-colors">{t.legal.privacy}</a>
+            <a href="#" className="hover:text-primary transition-colors">{t.legal.terms}</a>
           </div>
         </div>
       </div>

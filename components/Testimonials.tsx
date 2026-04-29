@@ -128,8 +128,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ t }) => {
                 {/* The "Result" Stamp (Smaller, secondary focus) */}
                 <div className={`relative p-4 rounded-xl bg-primary/5 border border-primary/20 transition-all duration-500 delay-100 ${isAnimating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
                    <div className="text-[0.6rem] text-secondary font-black uppercase tracking-widest mb-1">Primary Outcome</div>
-                   <div className="text-3xl font-black text-white mb-1">{activeItem.metric}</div>
-                   <div className="text-xs text-white/60 font-medium">{activeItem.metricLabel}</div>
+                   <div className="text-3xl font-black text-white mb-1">{activeItem.results[0]?.value}</div>
+                   <div className="text-xs text-white/60 font-medium">{activeItem.results[0]?.label}</div>
                 </div>
 
               </div>

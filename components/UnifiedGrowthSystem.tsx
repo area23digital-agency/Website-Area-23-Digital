@@ -408,6 +408,70 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology, tServices }) => {
           </div>
         </div>
 
+         {/* SERVICES SECTION */}
+         <div id="services" className={`mt-24 md:mt-32 pt-24 md:pt-32 border-t border-white/5 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+
+           <div className="text-center mb-16 md:mb-20">
+             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+               {tServices.headline}
+             </h2>
+             <p className="text-white/40 text-lg max-w-2xl mx-auto font-light">
+               {tServices.subheadline}
+             </p>
+           </div>
+
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
+             {tServices.cards.map((card, idx) => (
+               <div
+                 key={idx}
+                 className="group relative bg-[#080808] border border-white/5 rounded-[2rem] p-8 md:p-10 flex flex-col hover:border-primary/30 hover:-translate-y-1 transition-all duration-500 overflow-hidden"
+               >
+                 <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none"></div>
+                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+
+                 <div className="relative z-10 text-[0.6rem] font-bold text-primary/60 uppercase tracking-[0.2em] mb-4">
+                   {card.component}
+                 </div>
+                 <h3 className="relative z-10 text-xl md:text-2xl font-bold text-white mb-3 tracking-tight">
+                   {card.title}
+                 </h3>
+                 <p className="relative z-10 text-white/40 text-sm leading-relaxed mb-8 font-light">
+                   {card.description}
+                 </p>
+
+                 <div className="relative z-10 flex-grow mb-8">
+                   <div className="text-[0.55rem] font-black text-white/20 uppercase tracking-[0.2em] mb-4">
+                     {card.whatWeDoTitle}
+                   </div>
+                   <ul className="space-y-2.5">
+                     {card.whatWeDo.map((item, i) => (
+                       <li key={i} className="flex items-start gap-3 text-sm text-white/60 group-hover:text-white/70 transition-colors">
+                         <span className="text-primary/80 mt-0.5 flex-shrink-0">
+                           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                           </svg>
+                         </span>
+                         {item}
+                       </li>
+                     ))}
+                   </ul>
+                 </div>
+
+                 <div className="relative z-10 mt-auto pt-6 border-t border-white/5">
+                   <div className="text-[0.55rem] font-black text-primary/50 uppercase tracking-[0.2em] mb-2">
+                     {card.advantageTitle}
+                   </div>
+                   <p className="text-sm font-bold text-white/80">{card.benefit}</p>
+                 </div>
+               </div>
+             ))}
+           </div>
+
+           <p className="text-center text-white/20 text-xs font-bold uppercase tracking-[0.15em] max-w-2xl mx-auto leading-loose">
+             {tServices.footer}
+           </p>
+         </div>
+
          {/* Unified Footer */}
          {tMethodology.footer && (
            <div className="text-center flex justify-center mt-12 md:mt-24">
