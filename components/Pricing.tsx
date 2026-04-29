@@ -20,8 +20,8 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
   }, []);
 
   return (
-    <section id="pricing" className="py-20 md:py-32 bg-black" ref={sectionRef}>
-      <div className="container mx-auto px-6">
+    <section id="pricing" className="py-12 md:py-32 bg-black" ref={sectionRef}>
+      <div className="container mx-auto px-5 sm:px-6">
         <div className="text-center mb-12 md:mb-24 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-[80%] h-[150%] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
           
@@ -102,7 +102,7 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
                           onClick={() => setActiveAccordion(isOpen ? null : pIdx)}
                           className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none group"
                         >
-                          <h3 className="text-white font-bold text-lg md:text-xl uppercase tracking-wider">{plan.name}</h3>
+                          <h3 className="text-white font-bold text-sm md:text-xl uppercase tracking-wider leading-tight">{plan.name}</h3>
                           <div className="flex items-center gap-6">
                             <span className="text-primary font-bold text-lg hidden sm:block sm:w-32 md:w-40 text-right">{plan.price}</span>
                             <span className={`text-white/50 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>

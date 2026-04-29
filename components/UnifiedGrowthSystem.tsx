@@ -191,19 +191,19 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology }) => {
   };
 
   return (
-    <section id="approach" ref={sectionRef} className="bg-[#020202] py-24 md:py-32 xl:py-40 relative text-white border-t border-white/5 overflow-hidden">
+    <section id="approach" ref={sectionRef} className="bg-[#020202] py-12 md:py-32 xl:py-40 relative text-white border-t border-white/5 overflow-hidden">
       {/* Background Ambience Shared connecting whole section */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-[#020202] to-[#020202] opacity-60"></div>
       
       <div className="container mx-auto px-6 sm:px-8 relative z-10 max-w-7xl">
         
         {/* PART 1 & 2 UNIFIED: THE METHODOLOGY & COMPONENTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 xl:gap-20 items-stretch mb-16 md:mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-20 items-stretch mb-10 md:mb-24">
           
           {/* LEFT COLUMN - TEXT & TABS */}
           <div className="lg:col-span-5 flex flex-col justify-center">
             {/* Badges */}
-            <div className="flex flex-wrap gap-2 mb-8">
+            <div className="flex flex-wrap gap-2 mb-4 md:mb-8">
               {tMethodology.badges.map((badge, i) => (
                 <span key={i} className="px-3.5 py-1.5 text-[0.65rem] uppercase tracking-[0.2em] font-bold border border-white/10 rounded-full bg-white/[0.03] text-white/70 shadow-sm backdrop-blur-md">
                   {badge}
@@ -212,12 +212,12 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology }) => {
             </div>
             
             {/* Headline */}
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.05] text-white">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4 md:mb-6 leading-[1.05] text-white">
               {tMethodology.headline}
             </h2>
             
             {/* Subheadline */}
-            <p className="text-lg md:text-xl text-white/50 font-light mb-12 lg:mb-16 max-w-lg leading-relaxed">
+            <p className="text-sm md:text-xl text-white/50 font-light mb-5 lg:mb-16 max-w-lg leading-relaxed">
               {tMethodology.subheadline}
             </p>
 
@@ -289,7 +289,7 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology }) => {
                                className="overflow-hidden"
                              >
                                 {/* Visual Mockup Header */}
-                                <div className="w-full h-48 border-y border-white/5 relative overflow-hidden bg-[#080808]">
+                                <div className="w-full h-32 sm:h-48 border-y border-white/5 relative overflow-hidden bg-[#080808]">
                                    <PlatformMockup type={idx === 0 ? 1 : idx === 1 ? 2 : 0} />
                                 </div>
 
