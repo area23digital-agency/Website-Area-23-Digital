@@ -124,7 +124,7 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                               {/* Included Features */}
                               <div>
-                                <h4 className="text-white/50 text-xs font-bold uppercase tracking-widest mb-4">WHAT'S INCLUDED:</h4>
+                                <h4 className="text-white/50 text-xs font-bold uppercase tracking-widest mb-4">{t.includedLabel}:</h4>
                                 <ul className="space-y-3">
                                   {plan.features.map((feature, idx) => (
                                     <li key={idx} className="flex items-start text-[#cbcdd4] text-sm">
@@ -139,7 +139,7 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
                               <div>
                                 {plan.variants && plan.variants.length > 0 && (
                                   <>
-                                    <h4 className="text-white/50 text-xs font-bold uppercase tracking-widest mb-4">PLANS / OPTIONAL:</h4>
+                                    <h4 className="text-white/50 text-xs font-bold uppercase tracking-widest mb-4">{t.optionalLabel}:</h4>
                                     <ul className="space-y-3">
                                       {plan.variants.map((variant, idx) => (
                                         <li key={idx} className="flex items-start text-[#cbcdd4] text-sm">
@@ -152,7 +152,7 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
                                 )}
                                 {plan.notIncluded && plan.notIncluded.length > 0 && (
                                   <>
-                                    <h4 className="text-white/50 text-xs font-bold uppercase tracking-widest mb-4">NOT INCLUDED:</h4>
+                                    <h4 className="text-white/50 text-xs font-bold uppercase tracking-widest mb-4">{t.notIncludedLabel}:</h4>
                                     <ul className="space-y-3">
                                       {plan.notIncluded.map((item, idx) => (
                                         <li key={idx} className="flex items-start text-[#cbcdd4] text-sm opacity-60">
@@ -262,20 +262,51 @@ const Pricing: React.FC<PricingProps> = ({ t }) => {
           ))}
         </div>
 
-        {/* Footer Text */}
-        <div className={`text-center max-w-2xl mx-auto transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <p className="text-secondary/60 text-xs font-bold tracking-widest uppercase whitespace-pre-line">
-            {t.footer.split(/\[(.*?)\]/).map((part, i) => {
-              if (i % 2 === 1) {
-                return (
-                  <a key={i} href="mailto:area23digital@gmail.com?subject=Strategy%20Call" className="text-primary hover:text-pinkHover transition-colors border-b border-primary/30 hover:border-pinkHover pb-0.5 ml-1">
-                    {part}
-                  </a>
-                );
-              }
-              return part;
-            })}
-          </p>
+        {/* Footer CTA block */}
+        <div className={`mt-20 md:mt-28 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          <div className="relative rounded-[2rem] border border-white/10 bg-[#080808] overflow-hidden px-8 md:px-16 py-12 md:py-16 text-center">
+
+            {/* Top glow line */}
+            <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+            {/* Background radial */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,0,69,0.07),transparent_65%)] pointer-events-none" />
+
+            {/* Trust pills */}
+            <div className="relative z-10 flex flex-wrap justify-center gap-3 mb-10">
+              {t.footerItems.map((item, i) => (
+                <div key={i} className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.08]">
+                  <svg className="w-3.5 h-3.5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-white/60 text-xs font-semibold tracking-wide">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Question */}
+            <p className="relative z-10 text-white text-2xl md:text-3xl font-black tracking-tight mb-8">
+              {t.footerQuestion}
+            </p>
+
+            {/* Big CTA button */}
+            <div className="relative z-10 flex justify-center">
+              <a
+                href="mailto:area23digital@gmail.com?subject=Strategy%20Call"
+                className="group inline-flex items-center gap-3 bg-primary hover:bg-pinkHover text-white font-black text-sm md:text-base uppercase tracking-widest px-8 md:px-10 py-4 md:py-5 rounded-full transition-all duration-200 shadow-[0_0_40px_rgba(255,0,69,0.35)] hover:shadow-[0_0_56px_rgba(255,0,69,0.55)] hover:scale-[1.03] active:scale-95"
+              >
+                {t.footerCta}
+                <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+
+            {/* Sub-note */}
+            <p className="relative z-10 mt-5 text-white/25 text-xs font-medium tracking-wider">
+              {t.footerNote}
+            </p>
+
+          </div>
         </div>
       </div>
     </section>

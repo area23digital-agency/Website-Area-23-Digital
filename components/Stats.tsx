@@ -55,7 +55,7 @@ const Stats: React.FC<StatsProps> = ({ t }) => {
   }, []);
 
   return (
-    <section className="py-20 md:py-32 bg-white/[0.01]" id="results" ref={sectionRef}>
+    <section className="py-20 md:py-32 bg-white/[0.01]" id="stats" ref={sectionRef}>
       <div className="container mx-auto px-6 text-center">
         <h2 className={`text-3xl md:text-5xl font-bold mb-12 md:mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {t.headline}

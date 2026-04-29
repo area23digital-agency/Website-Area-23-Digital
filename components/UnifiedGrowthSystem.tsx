@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
   tMethodology: Translation['hundredKPages'];
-  tServices: Translation['services'];
 }
 
 const PlatformMockup = ({ type }: { type: number }) => {
@@ -145,7 +144,7 @@ const PlatformMockup = ({ type }: { type: number }) => {
   );
 };
 
-const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology, tServices }) => {
+const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -297,7 +296,7 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology, tServices }) => {
                                 <div className="p-5 sm:p-6 pb-6">
                                    <div className="inline-flex items-center gap-2 mb-6 bg-white/[0.03] border border-white/[0.08] px-3 py-1.5 rounded-full backdrop-blur-sm mt-2">
                                       <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_currentColor]"></div>
-                                      <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/60">Phase details</span>
+                                      <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/60">{tMethodology.phaseLabel}</span>
                                    </div>
 
                                    <ul className="grid grid-cols-1 gap-y-4 mb-6">
@@ -310,9 +309,19 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology, tServices }) => {
                                         </li>
                                      ))}
                                    </ul>
+
+                                   {phase.services?.length > 0 && (
+                                     <div className="mb-6 flex flex-wrap gap-2">
+                                       {phase.services.map((svc, i) => (
+                                         <span key={i} className="px-2.5 py-1 rounded-full text-[0.6rem] font-bold uppercase tracking-wider bg-primary/10 border border-primary/20 text-primary/80">
+                                           {svc}
+                                         </span>
+                                       ))}
+                                     </div>
+                                   )}
                                    
                                    <div className="bg-[#050505] border border-white/5 rounded-2xl p-4 sm:p-5 flex flex-col gap-1.5 shadow-inner ring-1 ring-white/[0.02]">
-                                      <span className="text-[0.6rem] uppercase tracking-[0.2em] font-mono text-primary/60 font-semibold mb-1">System Output</span>
+                                      <span className="text-[0.6rem] uppercase tracking-[0.2em] font-mono text-primary/60 font-semibold mb-1">{tMethodology.outputLabel}</span>
                                       <span className="text-sm font-bold text-white tracking-tight">
                                         {phase.deliverable.includes(':') 
                                            ? phase.deliverable.split(':')[1].trim() 
@@ -355,7 +364,7 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology, tServices }) => {
                      <div className="relative z-10 w-full p-6 sm:p-8 flex flex-col flex-grow overflow-y-auto overflow-x-hidden min-h-0">
                         <div className="inline-flex items-center gap-2 mb-6 bg-white/[0.03] border border-white/[0.08] px-3 py-1.5 rounded-full backdrop-blur-sm self-start shrink-0">
                           <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_currentColor]"></div>
-                          <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/60">Phase details</span>
+                          <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/60">{tMethodology.phaseLabel}</span>
                         </div>
 
                         <h4 className="text-2xl sm:text-3xl xl:text-4xl font-bold mb-6 sm:mb-8 text-white tracking-tight leading-tight max-w-[90%] shrink-0">
@@ -386,11 +395,25 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology, tServices }) => {
                              </li>
                           ))}
                         </ul>
+
+                        {/* Active capabilities for this phase */}
+                        {tMethodology.phases[activeTab].services?.length > 0 && (
+                          <div className="mt-6 pt-5 border-t border-white/5">
+                            <span className="text-[0.55rem] font-black text-white/20 uppercase tracking-[0.2em] mr-3">{tMethodology.capabilitiesLabel}</span>
+                            <div className="flex flex-wrap gap-2 mt-3">
+                              {tMethodology.phases[activeTab].services.map((svc, i) => (
+                                <span key={i} className="px-2.5 py-1 rounded-full text-[0.6rem] font-bold uppercase tracking-wider bg-primary/10 border border-primary/20 text-primary/80">
+                                  {svc}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                      </div>
 
                      <div className="relative z-10 mx-6 sm:mx-8 mb-6 sm:mb-8 shrink-0 mt-auto bg-[#0a0a0a] border border-white/5 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-inner ring-1 ring-white/[0.02]">
                         <div className="flex flex-col gap-1.5">
-                          <span className="text-[0.6rem] uppercase tracking-[0.2em] font-mono text-primary/60 font-semibold mb-1 hover:text-primary transition-colors cursor-default">System Output</span>
+                          <span className="text-[0.6rem] uppercase tracking-[0.2em] font-mono text-primary/60 font-semibold mb-1 hover:text-primary transition-colors cursor-default">{tMethodology.outputLabel}</span>
                           <span className="text-sm sm:text-base font-bold text-white tracking-tight">
                             {tMethodology.phases[activeTab].deliverable.includes(':') 
                                ? tMethodology.phases[activeTab].deliverable.split(':')[1].trim() 
@@ -407,70 +430,6 @@ const UnifiedGrowthSystem: React.FC<Props> = ({ tMethodology, tServices }) => {
             </div>
           </div>
         </div>
-
-         {/* SERVICES SECTION */}
-         <div id="services" className={`mt-24 md:mt-32 pt-24 md:pt-32 border-t border-white/5 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-
-           <div className="text-center mb-16 md:mb-20">
-             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-               {tServices.headline}
-             </h2>
-             <p className="text-white/40 text-lg max-w-2xl mx-auto font-light">
-               {tServices.subheadline}
-             </p>
-           </div>
-
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
-             {tServices.cards.map((card, idx) => (
-               <div
-                 key={idx}
-                 className="group relative bg-[#080808] border border-white/5 rounded-[2rem] p-8 md:p-10 flex flex-col hover:border-primary/30 hover:-translate-y-1 transition-all duration-500 overflow-hidden"
-               >
-                 <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none"></div>
-                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-
-                 <div className="relative z-10 text-[0.6rem] font-bold text-primary/60 uppercase tracking-[0.2em] mb-4">
-                   {card.component}
-                 </div>
-                 <h3 className="relative z-10 text-xl md:text-2xl font-bold text-white mb-3 tracking-tight">
-                   {card.title}
-                 </h3>
-                 <p className="relative z-10 text-white/40 text-sm leading-relaxed mb-8 font-light">
-                   {card.description}
-                 </p>
-
-                 <div className="relative z-10 flex-grow mb-8">
-                   <div className="text-[0.55rem] font-black text-white/20 uppercase tracking-[0.2em] mb-4">
-                     {card.whatWeDoTitle}
-                   </div>
-                   <ul className="space-y-2.5">
-                     {card.whatWeDo.map((item, i) => (
-                       <li key={i} className="flex items-start gap-3 text-sm text-white/60 group-hover:text-white/70 transition-colors">
-                         <span className="text-primary/80 mt-0.5 flex-shrink-0">
-                           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                           </svg>
-                         </span>
-                         {item}
-                       </li>
-                     ))}
-                   </ul>
-                 </div>
-
-                 <div className="relative z-10 mt-auto pt-6 border-t border-white/5">
-                   <div className="text-[0.55rem] font-black text-primary/50 uppercase tracking-[0.2em] mb-2">
-                     {card.advantageTitle}
-                   </div>
-                   <p className="text-sm font-bold text-white/80">{card.benefit}</p>
-                 </div>
-               </div>
-             ))}
-           </div>
-
-           <p className="text-center text-white/20 text-xs font-bold uppercase tracking-[0.15em] max-w-2xl mx-auto leading-loose">
-             {tServices.footer}
-           </p>
-         </div>
 
          {/* Unified Footer */}
          {tMethodology.footer && (

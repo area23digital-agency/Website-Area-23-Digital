@@ -1,0 +1,17 @@
+{
+  "name": "Area 23 Digital",
+  "short_name": "Area 23",
+  "description": "Growth Systems Agency — Paid Media, Automation & Strategy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff0045",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

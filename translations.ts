@@ -47,47 +47,54 @@ export const translations: Record<'en' | 'es', Translation> = {
     },
     hundredKPages: {
       badges: ["Analysis", "Strategy", "Growth"],
-      headline: "The Growth Methodology",
-      subheadline: "We engineer growth systems.",
+      headline: "How We Work",
+      subheadline: "We design integrated growth systems.",
       description: "Your revenue system, designed to scale. No fluff. No shortcuts. Just a disciplined process to design, launch, and optimize the infrastructure your business needs.",
       diagramNodes: [
         { title: "DISCOVERY" },
         { title: "BUILD" },
         { title: "SCALE" }
       ],
+      phaseLabel: "PHASE DETAILS",
+      outputLabel: "SYSTEM OUTPUT",
+      capabilitiesLabel: "ACTIVE CAPABILITIES",
       phases: [
         {
           title: "DISCOVERY & STRATEGY",
           items: [
-            "Full situation audit",
-            "Competitor & market analysis",
-            "Goal & KPI definition",
-            "System architecture design",
-            "Customer journey mapping"
+            "Audit of current channels, budget, and results",
+            "Competitor and market opportunity analysis",
+            "Define success objectives, KPIs, and metrics",
+            "Design complete system architecture",
+            "Map the customer journey end-to-end",
+            "Strategic roadmap with concrete actions and timelines"
           ],
-          deliverable: "System Output: Growth Roadmap"
+          deliverable: "Strategic Blueprint — full clarity on what to build and why",
+          services: ["Growth Strategy"]
         },
         {
           title: "BUILD & DEPLOY",
           items: [
-            "CRM & automation setup",
-            "Meta Ads campaign launch",
-            "Conversion tracking setup",
-            "Landing page development",
-            "WhatsApp automation setup"
+            "CRM setup with automated lead follow-up flows",
+            "WhatsApp, email, and SMS automation at every funnel stage",
+            "High-conversion landing page development",
+            "Meta Ads campaign launch and configuration",
+            "Full conversion tracking and analytics implementation"
           ],
-          deliverable: "System Output: Launch-Ready Infrastructure"
+          deliverable: "Live System — complete infrastructure ready to generate results",
+          services: ["Automation & Systems", "Web & CRO", "Paid Media"]
         },
         {
           title: "OPTIMIZE & SCALE",
           items: [
-            "Daily campaign optimization",
-            "A/B testing of creatives and audiences",
-            "Budget scaling strategies",
-            "Lead quality refinement",
-            "Performance reporting"
+            "Daily campaign and creative optimization",
+            "Continuous A/B testing of audiences and messaging",
+            "Lead quality and conversion rate refinement",
+            "Strategic budget scaling based on results",
+            "Weekly performance reports with actionable insights"
           ],
-          deliverable: "System Output: Predictable Revenue"
+          deliverable: "Growth Engine — self-optimizing, predictable revenue system",
+          services: ["Paid Media", "Automation", "Web & CRO"]
         }
       ],
       footer: "SYSTEM STATUS: ACTIVE"
@@ -216,8 +223,10 @@ export const translations: Record<'en' | 'es', Translation> = {
     testimonials: {
       badge: "CLIENT SUCCESS LOG",
       headline: "Real Results",
+      subheadline: "Real clients. Real numbers. No stock photos, no made-up results.",
+      verifiedLabel: "Verified Client",
       items: [
-        { 
+        {
           industry: "ECOMMERCE",
           quote: "Area 23 Digital didn’t just run ads; they built a sales machine. Our lead quality increased significantly in the first month using their automation flows.", 
           name: "Marcus Thorne", 
@@ -257,7 +266,49 @@ export const translations: Record<'en' | 'es', Translation> = {
             { value: "12-WEEK", label: "System Build" }
           ],
           image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&h=400&q=80",
-          indicator: "/// 3 OF 3"
+          indicator: "/// 3 OF 6"
+        },
+        {
+          industry: "REAL ESTATE",
+          quote: "Our cost per qualified lead dropped by 40%. The automation follows up instantly so we focus on closing, not chasing.",
+          name: "Diana Reyes",
+          position: "DIRECTOR — REYES PROPERTIES",
+          context: "Built a complete lead pipeline and WhatsApp follow-up system for a regional real estate firm scaling across two markets.",
+          results: [
+            { value: "-40%", label: "Cost Per Lead" },
+            { value: "3×", label: "Qualified Leads" },
+            { value: "8-WEEK", label: "Build Time" }
+          ],
+          image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&h=400&q=80",
+          indicator: "/// 4 OF 6"
+        },
+        {
+          industry: "FOOD & BEVERAGE",
+          quote: "We went from zero online presence to fully booked weekends. The paid media system pays for itself every single month.",
+          name: "James Torres",
+          position: "OWNER — URBAN TABLE",
+          context: "Launched their first paid media and booking automation system in 45 days, turning walk-in traffic into a predictable pipeline.",
+          results: [
+            { value: "4.1×", label: "ROAS" },
+            { value: "+320%", label: "Bookings" },
+            { value: "45-DAY", label: "Launch" }
+          ],
+          image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&h=400&q=80",
+          indicator: "/// 5 OF 6"
+        },
+        {
+          industry: "COACHING",
+          quote: "My enrollment rate tripled. I went from 2-3 clients a month to consistently 8-10. The funnel they built just works.",
+          name: "Kevin Marsh",
+          position: "FOUNDER — CLARITY COACHING CO.",
+          context: "Redesigned the complete client acquisition funnel with high-converting landing pages, Meta Ads, and automated follow-up sequences.",
+          results: [
+            { value: "3×", label: "Enrollment Rate" },
+            { value: "+$80K", label: "Revenue/Month" },
+            { value: "6-WEEK", label: "System Build" }
+          ],
+          image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80",
+          indicator: "/// 6 OF 6"
         }
       ]
     },
@@ -285,6 +336,13 @@ export const translations: Record<'en' | 'es', Translation> = {
     pricing: {
       headline: "Investment",
       subheadline: "Choose Your Growth Plan",
+      includedLabel: "WHAT'S INCLUDED",
+      optionalLabel: "PLANS / OPTIONAL",
+      notIncludedLabel: "NOT INCLUDED",
+      footerItems: ["Minimum commitment: 3 months", "Ad budget not included in monthly fees"],
+      footerQuestion: "Not sure which plan fits your business?",
+      footerCta: "Schedule a Free Strategy Call",
+      footerNote: "100% free · No commitment · Response within 24h",
       sections: [
         {
           title: "",
@@ -581,47 +639,54 @@ export const translations: Record<'en' | 'es', Translation> = {
     },
     hundredKPages: {
       badges: ["Análisis", "Estrategia", "Crecimiento"],
-      headline: "Nuestra Metodología",
-      subheadline: "Diseñamos sistemas de crecimiento.",
+      headline: "Cómo Trabajamos",
+      subheadline: "Diseñamos sistemas integrados de crecimiento.",
       description: "Tu sistema de ingresos, diseñado para escalar. Sin rellenos. Sin atajos. Solo un proceso disciplinado para diseñar, lanzar y optimizar la infraestructura que tu negocio necesita.",
       diagramNodes: [
         { title: "DESCUBRIMIENTO" },
         { title: "CONSTRUCCIÓN" },
         { title: "OPTIMIZACIÓN" }
       ],
+      phaseLabel: "DETALLES DE FASE",
+      outputLabel: "SALIDA DEL SISTEMA",
+      capabilitiesLabel: "CAPACIDADES ACTIVAS",
       phases: [
         {
           title: "DESCUBRIMIENTO Y ESTRATEGIA",
           items: [
-            "Auditoría completa de la situación actual",
-            "Análisis de competencia y mercado",
-            "Definición de objetivos y KPIs",
-            "Diseño de arquitectura del sistema",
-            "Mapeo del viaje del cliente"
+            "Auditoría de canales, presupuesto y resultados actuales",
+            "Análisis de competencia y oportunidades de mercado",
+            "Definición de objetivos, KPIs y métricas de éxito",
+            "Diseño de la arquitectura completa del sistema",
+            "Mapeo del viaje del cliente de principio a fin",
+            "Hoja de ruta estratégica con acciones y plazos concretos"
           ],
-          deliverable: "Salida del Sistema: Blueprint Estratégico"
+          deliverable: "Blueprint Estratégico — claridad total sobre qué construir y por qué",
+          services: ["Estrategia de Crecimiento"]
         },
         {
           title: "CONSTRUCCIÓN Y DESPLIEGUE",
           items: [
-            "Configuración de CRM y flujos de automatización",
-            "Lanzamiento de campañas en Meta Ads",
-            "Implementación de seguimiento de conversiones",
-            "Desarrollo de landing pages",
-            "Configuración de automatización de WhatsApp"
+            "Configuración de CRM con flujos de seguimiento automatizados",
+            "Automatización de WhatsApp, email y SMS en cada etapa del funnel",
+            "Desarrollo de landing pages de alta conversión",
+            "Lanzamiento y configuración de campañas Meta Ads",
+            "Implementación completa de tracking y analítica"
           ],
-          deliverable: "Salida del Sistema: Sistema en Vivo"
+          deliverable: "Sistema en Vivo — infraestructura completa lista para generar resultados",
+          services: ["Automatización y Sistemas", "Web y CRO", "Paid Media"]
         },
         {
           title: "OPTIMIZACIÓN Y ESCALADO",
           items: [
-            "Optimización diaria de campañas",
-            "A/B testing de creativos y audiencias",
-            "Estrategias de escalado de presupuesto",
-            "Refinamiento de calidad de leads",
-            "Reportes de rendimiento"
+            "Optimización diaria de campañas y creativos",
+            "A/B testing continuo de audiencias y mensajes",
+            "Refinamiento de calidad de leads y tasa de conversión",
+            "Escalado estratégico de presupuesto según resultados",
+            "Reportes semanales con insights accionables"
           ],
-          deliverable: "Salida del Sistema: Motor de Crecimiento Optimizado"
+          deliverable: "Motor de Crecimiento — sistema auto-optimizable e ingresos predecibles",
+          services: ["Paid Media Estratégico", "Automatización", "Web y CRO"]
         }
       ],
       footer: "ESTADO DEL SISTEMA: ACTIVO"
@@ -750,6 +815,8 @@ export const translations: Record<'en' | 'es', Translation> = {
     testimonials: {
       badge: "REGISTRO DE ÉXITO",
       headline: "Resultados Reales",
+      subheadline: "Clientes reales. Números reales. Sin fotos de stock, sin resultados inventados.",
+      verifiedLabel: "Cliente Verificado",
       items: [
         { 
           industry: "ECOMMERCE",
@@ -791,7 +858,49 @@ export const translations: Record<'en' | 'es', Translation> = {
             { value: "12 SEMANAS", label: "Construcción Sistema" }
           ],
           image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&h=400&q=80",
-          indicator: "/// 3 DE 3"
+          indicator: "/// 3 DE 6"
+        },
+        {
+          industry: "BIENES RAÍCES",
+          quote: "Nuestro costo por lead cualificado bajó un 40%. La automatización hace el seguimiento al instante, así nos enfocamos en cerrar, no en perseguir.",
+          name: "Diana Reyes",
+          position: "DIRECTORA — REYES PROPERTIES",
+          context: "Construimos un pipeline completo de generación de leads y seguimiento por WhatsApp para una firma inmobiliaria regional.",
+          results: [
+            { value: "-40%", label: "Costo Por Lead" },
+            { value: "3×", label: "Leads Cualificados" },
+            { value: "8 SEMANAS", label: "Tiempo de Construcción" }
+          ],
+          image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&h=400&q=80",
+          indicator: "/// 4 DE 6"
+        },
+        {
+          industry: "ALIMENTOS Y BEBIDAS",
+          quote: "Pasamos de cero presencia online a fines de semana completamente llenos. El sistema de paid media se paga solo cada mes.",
+          name: "James Torres",
+          position: "DUEÑO — URBAN TABLE",
+          context: "Lanzamos su primer sistema de paid media y automatización de reservas en 45 días, convirtiendo el tráfico casual en un pipeline predecible.",
+          results: [
+            { value: "4.1×", label: "ROAS" },
+            { value: "+320%", label: "Reservas" },
+            { value: "45 DÍAS", label: "Lanzamiento" }
+          ],
+          image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&h=400&q=80",
+          indicator: "/// 5 DE 6"
+        },
+        {
+          industry: "COACHING",
+          quote: "Mi tasa de inscripción se triplicó. Pasé de 2-3 clientes al mes a consistentemente 8-10. El funnel que construyeron simplemente funciona.",
+          name: "Kevin Marsh",
+          position: "FUNDADOR — CLARITY COACHING CO.",
+          context: "Rediseñamos el funnel completo de adquisición de clientes con landing pages de alta conversión, Meta Ads y secuencias de seguimiento automatizadas.",
+          results: [
+            { value: "3×", label: "Tasa de Inscripción" },
+            { value: "+$80K", label: "Ingresos/Mes" },
+            { value: "6 SEMANAS", label: "Construcción Sistema" }
+          ],
+          image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80",
+          indicator: "/// 6 DE 6"
         }
       ]
     },
@@ -819,6 +928,13 @@ export const translations: Record<'en' | 'es', Translation> = {
     pricing: {
       headline: "Inversión",
       subheadline: "Elige Tu Plan de Crecimiento",
+      includedLabel: "QUÉ INCLUYE",
+      optionalLabel: "PLANES / OPCIONAL",
+      notIncludedLabel: "NO INCLUYE",
+      footerItems: ["Compromiso mínimo: 3 meses", "Presupuesto publicitario no incluido en las tarifas"],
+      footerQuestion: "¿No sabes qué plan se adapta a tu negocio?",
+      footerCta: "Agendar Llamada Estratégica Gratuita",
+      footerNote: "100% gratis · Sin compromiso · Respuesta en menos de 24h",
       sections: [
         {
           title: "",

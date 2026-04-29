@@ -1,200 +1,248 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Translation } from '../types';
+import { motion } from 'framer-motion';
 
 interface CaseStudiesProps {
   t: Translation['caseStudies'];
   testimonials: Translation['testimonials'];
 }
 
-const CaseStudies: React.FC<CaseStudiesProps> = ({ t, testimonials }) => {
-  const [activeTab, setActiveTab] = useState(0);
+type Item = Translation['testimonials']['items'][number];
+
+// ── Cursor-tracking glow card ─────────────────────────────────────────────
+const Card: React.FC<{ item: Item }> = ({ item }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current || !glowRef.current) return;
+    const r = cardRef.current.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    glowRef.current.style.opacity = '1';
+    glowRef.current.style.background = `radial-gradient(260px circle at ${x}% ${y}%, rgba(255,0,69,0.09), transparent 70%)`;
+  };
+
+  const onLeave = () => {
+    if (glowRef.current) glowRef.current.style.opacity = '0';
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      className="relative bg-[#0e0e0e] border border-white/[0.07] rounded-2xl p-6 mb-4 overflow-hidden group transition-all duration-200 hover:-translate-y-1 hover:border-white/[0.13] hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+    >
+      {/* cursor glow — updated via ref, no re-renders */}
+      <div
+        ref={glowRef}
+        className="absolute inset-0 rounded-2xl pointer-events-none"
+        style={{ opacity: 0, transition: 'opacity 0.3s' }}
+      />
+      {/* top highlight line */}
+      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
+
+      {/* industry + stars */}
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-[0.55rem] font-black uppercase tracking-[0.18em] text-primary/60">{item.industry}</span>
+        <div className="flex gap-0.5">
+          {[...Array(5)].map((_, i) => (
+            <svg key={i} className="w-3 h-3 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+          ))}
+        </div>
+      </div>
+
+      {/* quote */}
+      <p className="text-white/68 text-sm leading-relaxed mb-5 font-light">"{item.quote}"</p>
+
+      {/* 2 metrics */}
+      <div className="flex gap-2 mb-5">
+        {item.results.slice(0, 2).map((r, i) => (
+          <div key={i} className="flex-1 bg-white/[0.03] border border-white/[0.05] rounded-xl px-3 py-2 text-center">
+            <div className="text-white font-black text-sm tracking-tight">{r.value}</div>
+            <div className="text-white/25 text-[0.48rem] uppercase tracking-widest font-bold mt-0.5">{r.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* profile */}
+      <div className="flex items-center gap-3 pt-4 border-t border-white/[0.05]">
+        <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10 ring-1 ring-primary/10 flex-shrink-0">
+          <img
+            src={item.image || `https://api.dicebear.com/7.x/initials/svg?seed=${item.name}&backgroundColor=111111&textColor=ffffff`}
+            alt={item.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="text-white text-xs font-bold truncate">{item.name}</div>
+          <div className="text-white/35 text-[0.58rem] truncate">{item.position}</div>
+        </div>
+        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex-shrink-0">
+          <svg className="w-2.5 h-2.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+          </svg>
+          <span className="text-[0.5rem] font-bold text-emerald-400 uppercase tracking-wider">Verified</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── rAF-driven infinite scroll column ────────────────────────────────────
+const ScrollColumn = ({
+  items,
+  direction,
+  speed,
+  isPaused,
+}: {
+  items: Item[];
+  direction: 'up' | 'down';
+  speed: number; // px/s
+  isPaused: boolean;
+}) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const innerRef  = useRef<HTMLDivElement>(null);
+  const posRef    = useRef(0);
+  const rafRef    = useRef<number | null>(null);
+  const lastRef   = useRef(0);
+  const doubled   = [...items, ...items];
+
+  useEffect(() => {
+    const tick = (now: number) => {
+      const delta = now - (lastRef.current || now);
+      lastRef.current = now;
+
+      if (!isPaused && innerRef.current) {
+        const halfH = innerRef.current.scrollHeight / 2;
+        if (halfH > 0) {
+          const step = (speed / 1000) * delta;
+          posRef.current = direction === 'up'
+            ? (posRef.current + step) % halfH
+            : ((posRef.current - step) % halfH + halfH) % halfH;
+
+          const offset = direction === 'up' ? -posRef.current : posRef.current - halfH;
+          innerRef.current.style.transform = `translateY(${offset}px)`;
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [direction, speed, isPaused]);
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="relative overflow-hidden flex-1"
+      style={{
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+      }}
+    >
+      <div ref={innerRef} style={{ willChange: 'transform' }}>
+        {doubled.map((item, i) => (
+          <Card key={`${item.indicator}-${i}`} item={item} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+
+// ── Main section ──────────────────────────────────────────────────────────
+const CaseStudies: React.FC<CaseStudiesProps> = ({ testimonials }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const autoplayRef = useRef<number | null>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
-  
-  // Duration for autoplay in ms
-  const duration = 8000; 
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) setIsVisible(true);
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setIsVisible(true); },
+      { threshold: 0.08 }
+    );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  const handleTabChange = (index: number) => {
-    setActiveTab(index);
-    // Reset timer
-    if (autoplayRef.current) clearInterval(autoplayRef.current);
-    if (!isPaused) startAutoplay();
-  };
-
-  const startAutoplay = () => {
-    if (autoplayRef.current) clearInterval(autoplayRef.current);
-    autoplayRef.current = window.setInterval(() => {
-      setActiveTab((prev) => (prev + 1) % testimonials.items.length);
-    }, duration);
-  };
-
-  // Manage Autoplay based on visibility and pause state
-  useEffect(() => {
-    if (isVisible && !isPaused) {
-      startAutoplay();
-    } else {
-      if (autoplayRef.current) clearInterval(autoplayRef.current);
-    }
-    return () => {
-      if (autoplayRef.current) clearInterval(autoplayRef.current);
-    };
-  }, [isVisible, isPaused]);
-
-  // Reset progress bar animation on tab change or pause state
-  useEffect(() => {
-    if (progressRef.current) {
-      progressRef.current.style.transition = 'none';
-      progressRef.current.style.width = '0%';
-      
-      if (!isPaused) {
-        // Force reflow
-        void progressRef.current.offsetWidth;
-        progressRef.current.style.transition = `width ${duration}ms linear`;
-        progressRef.current.style.width = '100%';
-      }
-    }
-  }, [activeTab, isPaused]);
+  const items = testimonials.items;
+  const col1 = [...items.slice(0)];
+  const col2 = [...items.slice(2), ...items.slice(0, 2)];
+  const col3 = [...items.slice(4), ...items.slice(0, 4)];
 
   return (
-    <section className="py-20 md:py-32 bg-[#050505] relative overflow-hidden" ref={sectionRef}>
-      
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#111] to-transparent pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
+    <section id="results" className="py-24 md:py-32 bg-black relative overflow-hidden" ref={sectionRef}>
+
+      {/* Static background — no scroll listeners */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-20%] left-[-8%] w-[700px] h-[700px] rounded-full bg-primary/5 blur-[180px]" />
+        <div className="absolute bottom-[-20%] right-[-8%] w-[600px] h-[600px] rounded-full bg-primary/4 blur-[160px]" />
+      </div>
+
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 
       <div className="container mx-auto px-6 relative z-10">
-        
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-20 gap-8">
-          <div className="max-w-2xl">
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-[0.65rem] font-bold uppercase tracking-widest text-secondary">{testimonials.badge}</span>
-            </div>
-            <h2 className={`text-3xl md:text-5xl font-black text-white transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              {testimonials.headline}
-            </h2>
-          </div>
-          
-          <div className="hidden md:flex gap-2">
-            <div className="text-right">
-               <div className="text-[0.6rem] text-secondary uppercase tracking-widest font-bold mb-1">Database Status</div>
-               <div className="text-xs font-mono text-emerald-500">ONLINE • 99.9% UPTIME</div>
-            </div>
-          </div>
-        </div>
 
-        {/* Main Interface */}
-        <div 
-          className={`grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        {/* ── Header ── */}
+        <motion.div
+          className="text-center mb-16 md:mb-20"
+          initial={{ opacity: 0, y: 28, filter: 'blur(10px)' }}
+          animate={isVisible ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+          transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <motion.div
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 mb-6"
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={isVisible ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.34, 1.4, 0.64, 1] }}
+          >
+            <motion.div
+              className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.7)]"
+              animate={{ scale: [1, 1.6, 1], opacity: [1, 0.4, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/50">{testimonials.badge}</span>
+          </motion.div>
+
+          <motion.h2
+            className="text-4xl md:text-6xl font-black text-white tracking-tight mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            {testimonials.headline}
+          </motion.h2>
+
+          <motion.p
+            className="text-white/40 text-base md:text-lg max-w-md mx-auto font-light"
+            initial={{ opacity: 0 }}
+            animate={isVisible ? { opacity: 1 } : {}}
+            transition={{ duration: 0.7, delay: 0.25 }}
+          >
+            {testimonials.subheadline}
+          </motion.p>
+        </motion.div>
+
+        {/* ── Scrolling wall ── */}
+        <motion.div
+          className="flex gap-4 md:gap-5 h-[620px] md:h-[700px]"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          
-          {/* Left Column: Navigation Tabs */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
-             {testimonials.items.map((item, idx) => (
-               <button
-                 key={idx}
-                 onClick={() => handleTabChange(idx)}
-                 className={`group relative text-left p-6 rounded-xl border transition-all duration-300 overflow-hidden
-                   ${activeTab === idx 
-                     ? 'bg-white/[0.08] border-primary/50 shadow-[0_0_20px_rgba(0,0,0,0.5)]' 
-                     : 'bg-transparent border-white/5 hover:bg-white/[0.02] hover:border-white/10'}
-                 `}
-               >
-                 <div className="flex items-center justify-between relative z-10">
-                    <div>
-                       <div className={`text-[0.6rem] font-black uppercase tracking-widest mb-1 transition-colors ${activeTab === idx ? 'text-primary' : 'text-secondary'}`}>
-                         {item.industry}
-                       </div>
-                       <div className={`text-sm md:text-base font-bold transition-colors ${activeTab === idx ? 'text-white' : 'text-white/60 group-hover:text-white/80'}`}>
-                         {item.name}
-                       </div>
-                    </div>
-                    {activeTab === idx && (
-                      <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_#ff0045]"></div>
-                    )}
-                 </div>
-                 
-                 {/* Progress Bar for Active Tab */}
-                 {activeTab === idx && (
-                   <div className="absolute bottom-0 left-0 h-0.5 bg-primary/50" ref={progressRef}></div>
-                 )}
-               </button>
-             ))}
-          </div>
+          <ScrollColumn items={col1} direction="up"   speed={55}  isPaused={isPaused} />
+          <ScrollColumn items={col2} direction="down" speed={42}  isPaused={isPaused} />
+          <ScrollColumn items={col3} direction="up"   speed={50}  isPaused={isPaused} />
+        </motion.div>
 
-          {/* Right Column: Display Area */}
-          <div className="lg:col-span-8">
-            <div className="relative h-full min-h-[500px] bg-[#080808] border border-white/10 rounded-[2rem] p-8 md:p-12 flex flex-col justify-between overflow-hidden">
-               
-               {/* Background Tech Grid */}
-               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-               <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none">
-                  <svg className="w-32 h-32 text-white" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-                     <circle cx="50" cy="50" r="45" strokeWidth="1" strokeDasharray="4 4" className="animate-[spin_30s_linear_infinite]" />
-                     <circle cx="50" cy="50" r="30" strokeWidth="1" />
-                     <path d="M50 20 L50 50 L70 70" strokeWidth="1" />
-                  </svg>
-               </div>
-
-               {/* Metrics Grid */}
-               <div className="relative z-10 grid grid-cols-3 gap-4 mb-10">
-                  {testimonials.items[activeTab].results.map((res, i) => (
-                    <div key={i} className="bg-white/[0.03] border border-white/5 rounded-xl p-4 md:p-6 backdrop-blur-sm group hover:border-white/10 transition-colors">
-                       <div className="text-2xl md:text-4xl font-black text-white mb-1 tracking-tight group-hover:scale-105 transition-transform origin-left">{res.value}</div>
-                       <div className="text-[0.55rem] md:text-xs font-bold text-secondary uppercase tracking-widest">{res.label}</div>
-                    </div>
-                  ))}
-               </div>
-
-               {/* Content */}
-               <div className="relative z-10 mb-10">
-                  <div className="text-3xl md:text-5xl text-primary/20 font-serif absolute -top-6 -left-2 select-none">"</div>
-                  <p className="text-xl md:text-2xl font-serif italic text-white leading-relaxed mb-6 relative">
-                    {testimonials.items[activeTab].quote}
-                  </p>
-                  <p className="text-sm md:text-base text-accent/80 leading-relaxed border-l-2 border-white/10 pl-4 max-w-2xl">
-                    {testimonials.items[activeTab].context}
-                  </p>
-               </div>
-
-               {/* Footer: User Profile */}
-               <div className="relative z-10 flex items-center gap-4 mt-auto pt-8 border-t border-white/5">
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border border-white/10 relative">
-                     <img 
-                       src={testimonials.items[activeTab].image || `https://api.dicebear.com/7.x/initials/svg?seed=${testimonials.items[activeTab].name}`}
-                       alt={testimonials.items[activeTab].name}
-                       className="w-full h-full object-cover"
-                     />
-                  </div>
-                  <div>
-                     <div className="text-white font-bold text-lg leading-tight">{testimonials.items[activeTab].name}</div>
-                     <div className="text-primary text-xs font-bold uppercase tracking-wider">{testimonials.items[activeTab].position}</div>
-                  </div>
-                  <div className="ml-auto text-right hidden sm:block">
-                     <div className="text-[0.6rem] font-mono text-white/30 tracking-widest uppercase">System Log ID</div>
-                     <div className="text-xs font-mono text-white/50">#{testimonials.items[activeTab].indicator.split(' ').pop()?.padStart(4, '0')}</div>
-                  </div>
-               </div>
-
-            </div>
-          </div>
-
-        </div>
       </div>
     </section>
   );

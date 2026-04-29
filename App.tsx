@@ -41,7 +41,7 @@ const App: React.FC = () => {
       <main className="relative z-10">
         <Hero t={t.hero} />
         <Problem t={t.problem} />
-        <UnifiedGrowthSystem tMethodology={t.hundredKPages} tServices={t.services} />
+        <UnifiedGrowthSystem tMethodology={t.hundredKPages} />
         <Stats t={t.stats} />
         <CaseStudies t={t.caseStudies} testimonials={t.testimonials} />
         <IdealClient t={t.idealClient} />

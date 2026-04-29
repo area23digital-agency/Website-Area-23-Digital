@@ -46,10 +46,14 @@ export interface Translation {
     subheadline: string;
     description: string;
     diagramNodes: Array<{ title: string }>;
+    phaseLabel: string;
+    outputLabel: string;
+    capabilitiesLabel: string;
     phases: Array<{
       title: string;
       items: string[];
       deliverable: string;
+      services: string[];
     }>;
     footer: string;
   };
@@ -100,6 +104,8 @@ export interface Translation {
   testimonials: {
     badge: string;
     headline: string;
+    subheadline: string;
+    verifiedLabel: string;
     items: Array<{
       industry: string;
       quote: string;
@@ -124,6 +130,13 @@ export interface Translation {
   pricing: {
     headline: string;
     subheadline: string;
+    includedLabel: string;
+    optionalLabel: string;
+    notIncludedLabel: string;
+    footerItems: string[];
+    footerQuestion: string;
+    footerCta: string;
+    footerNote: string;
     sections: Array<{
       title: string;
       subtitle?: string;

@@ -1,0 +1,16 @@
+# robots.txt — Area 23 Digital
+# https://area23digital.com
+
+User-agent: *
+Allow: /
+
+# Block source files from indexing
+Disallow: /index.tsx
+Disallow: /*.ts$
+Disallow: /*.tsx$
+
+# Allow all bots to crawl social/og assets
+Allow: /og-image.png
+Allow: /favicon.svg
+
+Sitemap: https://area23digital.com/sitemap.xml
