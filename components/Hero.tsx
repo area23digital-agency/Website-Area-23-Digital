@@ -150,7 +150,7 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
               <div className="flex -space-x-2.5 flex-shrink-0">
                 {avatars.map((src, i) => (
                   <div key={i} className="w-8 h-8 rounded-full border-2 border-[#0f0f0f] overflow-hidden">
-                    <img src={src} alt="" className="w-full h-full object-cover" />
+                    <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" width="40" height="40" />
                   </div>
                 ))}
               </div>

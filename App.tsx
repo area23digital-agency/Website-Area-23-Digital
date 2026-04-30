@@ -14,6 +14,7 @@ import FAQ from './components/FAQ';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 import BackgroundEffects from './components/BackgroundEffects';
+import WhatsAppButton from './components/WhatsAppButton';
 
 const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>(() => {
@@ -51,6 +52,7 @@ const App: React.FC = () => {
       </main>
 
       <Footer t={t.footer} />
+      <WhatsAppButton />
     </div>
   );
 };

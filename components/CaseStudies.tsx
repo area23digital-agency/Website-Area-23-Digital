@@ -75,6 +75,9 @@ const Card: React.FC<{ item: Item }> = ({ item }) => {
             src={item.image || `https://api.dicebear.com/7.x/initials/svg?seed=${item.name}&backgroundColor=111111&textColor=ffffff`}
             alt={item.name}
             className="w-full h-full object-cover"
+            loading="lazy"
+            width="32"
+            height="32"
           />
         </div>
         <div className="min-w-0 flex-1">
